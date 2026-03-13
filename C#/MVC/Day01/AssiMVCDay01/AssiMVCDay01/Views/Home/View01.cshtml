@@ -1,0 +1,32 @@
+﻿<h1> Hello Rowad </h1>
+
+<style>
+	h1 {
+		color: red;
+}	
+</style>
+
+<script>
+	console.log("Hello");
+</script>
+
+@{
+	int X = 10;
+	int Y = 20;
+} 
+<h1>@X</h1>
+@Y
+
+@if (X > Y)
+{
+	<h2>X is greater than Y</h2>
+}
+else
+{
+	<h2>X=@X is smaller than Y=@Y</h2>
+}
+
+@for (int i = 0; i < 10; i++)
+{
+	<li>@i</li>
+}
