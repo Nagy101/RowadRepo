@@ -1,0 +1,29 @@
+﻿@model List<Department>
+
+<h2>All Departments</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Manager</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dept in Model)
+        {
+            <tr>
+                <td>@dept.Id</td>
+                <td>@dept.Name</td>
+                <td>@dept.MgrName</td>
+                <td>
+                    <a asp-action="ShowDetails" asp-route-id="@dept.Id" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Add New</a>

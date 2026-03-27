@@ -1,0 +1,22 @@
+﻿@using AssiDay02MVC.ViewModel
+@model DepartmentDetailsVM
+
+<h2>Department Info</h2>
+
+<div class="card p-3">
+    <h4>Department Name: @Model.DepartmentName</h4>
+    <h4>State: @Model.DepartmentState</h4>
+</div>
+
+<hr />
+
+<h3>Select Student (Age > 25)</h3>
+
+<select asp-for="SelectedStudentId" class="form-control">
+    <option value="">-- Select Student --</option>
+
+    @foreach (var student in Model.Students)
+    {
+        <option value="@student.Id">@student.Name</option>
+    }
+</select>

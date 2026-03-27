@@ -1,0 +1,58 @@
+﻿@model Department
+
+<h2>Department Details</h2>
+
+<div class="card p-3">
+    <h4>ID: @Model.Id</h4>
+    <h4>Name: @Model.Name</h4>
+    <h4>Manager: @Model.MgrName</h4>
+</div>
+
+<hr />
+
+<h3>Teachers</h3>
+@if (Model.Teachers != null && Model.Teachers.Any())
+{
+    <ul>
+        @foreach (var t in Model.Teachers)
+        {
+            <li>@t.Name</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No Teachers</p>
+}
+
+<h3>Courses</h3>
+@if (Model.Courses != null && Model.Courses.Any())
+{
+    <ul>
+        @foreach (var c in Model.Courses)
+        {
+            <li>@c.Name</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No Courses</p>
+}
+
+<h3>Students</h3>
+@if (Model.Students != null && Model.Students.Any())
+{
+    <ul>
+        @foreach (var s in Model.Students)
+        {
+            <li>@s.Name</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No Students</p>
+}
+
+<a asp-action="ShowAll" class="btn btn-secondary">Back</a>
