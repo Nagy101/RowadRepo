@@ -1,0 +1,41 @@
+﻿@model AssiDay02MVC.ViewModel.StudentDeptVM
+
+@{
+    ViewBag.Title = "Edit Student";
+}
+
+<div class="container mt-4">
+    <h2>Edit Student</h2>
+    <hr />
+
+    <form asp-action="Edit" method="post">
+
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Age" class="form-label"></label>
+            <input asp-for="Age" class="form-control" />
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="DepartmentId" class="form-label">Department</label>
+            <select asp-for="DepartmentId" class="form-select"
+                    asp-items="@(new SelectList(Model.Departments, "Id", "Name"))">
+                <option value="">-- Select Department --</option>
+            </select>
+            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-warning">Update</button>
+        <a asp-action="ShowAll" class="btn btn-secondary">Cancel</a>
+
+    </form>
+</div>
