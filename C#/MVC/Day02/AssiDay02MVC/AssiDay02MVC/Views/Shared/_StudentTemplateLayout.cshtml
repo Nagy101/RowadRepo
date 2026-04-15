@@ -24,6 +24,9 @@
                     <li class="nav-item">
                         <a class="nav-link @(currentController == "Department" ? "active" : "")" asp-controller="Department" asp-action="ShowAll">Departments</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(currentController == "Course" ? "active" : "")" asp-controller="Course" asp-action="ShowAll">Courses</a>
+                    </li>
                 </ul>
             </div>
         </div>

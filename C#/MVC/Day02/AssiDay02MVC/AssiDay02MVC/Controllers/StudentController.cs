@@ -89,13 +89,20 @@ namespace AssiDay02MVC.Controllers
                 return NotFound();
             }
 
+            var selectedCourseIds = _context.StuCrs
+                .Where(sc => sc.StudentId == id)
+                .Select(sc => sc.CourseId)
+                .ToList();
+
             var vm = new StudentDeptVM
             {
                 Id = student.Id,
                 Name = student.Name,
                 Age = student.Age,
                 DepartmentId = student.DepartmentId,
-                Departments = _context.Departments.ToList()
+                Departments = _context.Departments.ToList(),
+                Courses = _context.Courses.ToList(),
+                SelectedCourseIds = selectedCourseIds
             };
 
             return View(vm);
@@ -116,11 +123,39 @@ namespace AssiDay02MVC.Controllers
                 student.Age = vm.Age;
                 student.DepartmentId = vm.DepartmentId;
 
+                var existingRelations = _context.StuCrs.Where(sc => sc.StudentId == vm.Id).ToList();
+                var selectedCourseIds = vm.SelectedCourseIds ?? new List<int>();
+
+                var relationsToRemove = existingRelations
+                    .Where(sc => !selectedCourseIds.Contains(sc.CourseId))
+                    .ToList();
+
+                if (relationsToRemove.Any())
+                {
+                    _context.StuCrs.RemoveRange(relationsToRemove);
+                }
+
+                var existingCourseIds = existingRelations.Select(sc => sc.CourseId).ToHashSet();
+                var courseIdsToAdd = selectedCourseIds
+                    .Where(courseId => !existingCourseIds.Contains(courseId))
+                    .ToList();
+
+                foreach (var courseId in courseIdsToAdd)
+                {
+                    _context.StuCrs.Add(new StuCrsRes
+                    {
+                        StudentId = vm.Id,
+                        CourseId = courseId,
+                        Grade = 0
+                    });
+                }
+
                 _context.SaveChanges();
                 return RedirectToAction("ShowAll");
             }
 
             vm.Departments = _context.Departments.ToList();
+            vm.Courses = _context.Courses.ToList();
             return View(vm);
         }
 

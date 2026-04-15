@@ -1,0 +1,40 @@
+@model List<AssiDay02MVC.Models.Courses>
+
+@{
+    ViewData["Title"] = "All Courses";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>All Courses</h2>
+    <a asp-action="Add" class="btn btn-success">+ Add Course</a>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Degree</th>
+            <th>Min Degree</th>
+            <th>Department</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var course in Model)
+        {
+            <tr>
+                <td>@course.Id</td>
+                <td>@course.Name</td>
+                <td>@course.Degree</td>
+                <td>@course.MinDegree</td>
+                <td>@course.Department?.Name</td>
+                <td>
+                    <a asp-action="ShowDetails" asp-route-id="@course.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@course.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@course.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,17 @@
+@model AssiDay02MVC.ViewModel.StudentCourseDegreeVM
+
+@{
+    ViewData["Title"] = "Student Course Degree";
+}
+
+<h2>Student Course Degree</h2>
+<hr />
+
+<div class="card p-3">
+    <p><strong>Student:</strong> @Model.StudentName</p>
+    <p><strong>Course:</strong> @Model.CourseName</p>
+    <p><strong>Degree:</strong> @Model.Degree</p>
+    <p><strong>Result:</strong> <span class="@Model.ResultClass">@Model.ResultText</span></p>
+</div>
+
+<a asp-controller="Student" asp-action="ShowAll" class="btn btn-secondary mt-3">Back</a>

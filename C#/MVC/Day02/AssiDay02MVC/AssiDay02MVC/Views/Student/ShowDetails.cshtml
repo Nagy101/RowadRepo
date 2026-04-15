@@ -16,6 +16,7 @@
             <tr>
                 <th>Course</th>
                 <th>Degree</th>
+                <th>Result</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,13 @@
                 <tr>
                     <td>@item.Course?.Name</td>
                     <td>@item.Grade</td>
+                    <td>
+                        <a asp-controller="Course"
+                           asp-action="StudentCourseDegree"
+                           asp-route-studentId="@Model.Id"
+                           asp-route-courseId="@item.CourseId"
+                           class="btn btn-outline-primary btn-sm">View Result</a>
+                    </td>
                 </tr>
             }
         </tbody>
