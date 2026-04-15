@@ -10,12 +10,34 @@ namespace AssiDay02MVC.Controllers
     {
         CompanyDbContext _context = new CompanyDbContext();
 
-        public IActionResult ShowAll()
+        public IActionResult ShowAll(string search, int? departmentId, int page = 1, int pageSize = 10)
         {
-            var students = _context.Students
-                                   .Include(s => s.Department)
-                                   .ToList();
-            return View(students);
+            var query = _context.Students.Include(s => s.Department).AsQueryable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.Name.Contains(search));
+            }
+
+            if (departmentId.HasValue)
+            {
+                query = query.Where(s => s.DepartmentId == departmentId);
+            }
+
+            var totalStudents = query.Count();
+            var students = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            var vm = new StudentShowAllVM
+            {
+                Students = students,
+                Departments = _context.Departments.ToList(),
+                Search = search,
+                DepartmentId = departmentId,
+                TotalPages = (int)Math.Ceiling(totalStudents / (double)pageSize),
+                CurrentPage = page
+            };
+
+            return View(vm);
         }
         public IActionResult ShowDetails(int id)
         {
@@ -61,11 +83,13 @@ namespace AssiDay02MVC.Controllers
         
         public IActionResult Edit(int id)
         {
-            var student = _context.Students.FirstOrDefault(s => s.Id == id);
+            var student = _context.Students.Find(id);
             if (student == null)
+            {
                 return NotFound();
+            }
 
-            var vm = new StudentDeptVM()
+            var vm = new StudentDeptVM
             {
                 Id = student.Id,
                 Name = student.Name,
@@ -73,17 +97,20 @@ namespace AssiDay02MVC.Controllers
                 DepartmentId = student.DepartmentId,
                 Departments = _context.Departments.ToList()
             };
+
             return View(vm);
         }
+
         [HttpPost]
         public IActionResult Edit(StudentDeptVM vm)
         {
             if (ModelState.IsValid)
             {
-                var student = _context.Students.FirstOrDefault(s => s.Id == vm.Id);
-
+                var student = _context.Students.Find(vm.Id);
                 if (student == null)
+                {
                     return NotFound();
+                }
 
                 student.Name = vm.Name;
                 student.Age = vm.Age;

@@ -74,5 +74,37 @@ namespace AssiDay02MVC.Controllers
 
             return View(vm);
         }
+
+        public IActionResult Edit(int id)
+        {
+            var department = Context.Departments.Find(id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+
+            return View(department);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Department department)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingDepartment = Context.Departments.Find(department.Id);
+                if (existingDepartment == null)
+                {
+                    return NotFound();
+                }
+
+                existingDepartment.Name = department.Name;
+                existingDepartment.MgrName = department.MgrName;
+
+                Context.SaveChanges();
+                return RedirectToAction("ShowAll");
+            }
+
+            return View(department);
+        }
     }
 }
