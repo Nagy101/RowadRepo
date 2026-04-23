@@ -1,6 +1,6 @@
 ﻿@model AssiDay02MVC.ViewModel.StudentDeptVM
 @{
-    ViewBag.Title = "Add Student";
+    ViewData["Title"] = "Add Student";
 }
 
 <div class="container mt-4">
@@ -8,27 +8,8 @@
     <hr />
 
     <form asp-action="Add" method="post">
-
-        <div class="mb-3">
-            <label asp-for="Name" class="form-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="Age" class="form-label"></label>
-            <input asp-for="Age" class="form-control" />
-            <span asp-validation-for="Age" class="text-danger"></span>
-        </div>
-
-        <div class="mb-3">
-            <label asp-for="DepartmentId" class="form-label">Department</label>
-            <select asp-for="DepartmentId" class="form-select"
-                    asp-items="@(new SelectList(Model.Departments, "Id", "Name"))">
-                <option value="">-- Select Department --</option>
-            </select>
-            <span asp-validation-for="DepartmentId" class="text-danger"></span>
-        </div>
+        @Html.AntiForgeryToken()
+        @Html.Partial("_StudentForm", Model)
 
         <button type="submit" class="btn btn-success">Save</button>
         <a asp-action="ShowAll" class="btn btn-secondary">Cancel</a>

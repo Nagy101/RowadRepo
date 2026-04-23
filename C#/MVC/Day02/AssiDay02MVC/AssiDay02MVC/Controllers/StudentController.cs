@@ -61,6 +61,7 @@ namespace AssiDay02MVC.Controllers
             return View(vm);
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Add(StudentDeptVM vm)
         {
             if (ModelState.IsValid)
@@ -109,6 +110,7 @@ namespace AssiDay02MVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(StudentDeptVM vm)
         {
             if (ModelState.IsValid)
@@ -171,6 +173,7 @@ namespace AssiDay02MVC.Controllers
         }
         [HttpPost]
         [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public IActionResult ConfirmDelete(int id)
         {
             var student = _context.Students

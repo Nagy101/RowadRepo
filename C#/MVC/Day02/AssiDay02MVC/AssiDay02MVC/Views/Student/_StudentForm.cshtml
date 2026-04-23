@@ -1,0 +1,42 @@
+@model AssiDay02MVC.ViewModel.StudentDeptVM
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<input type="hidden" asp-for="Id" />
+
+<div class="mb-3">
+    <label asp-for="Name" class="form-label"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Age" class="form-label"></label>
+    <input asp-for="Age" class="form-control" />
+    <span asp-validation-for="Age" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="DepartmentId" class="form-label">Department</label>
+    <select asp-for="DepartmentId" class="form-select" asp-items="@(new SelectList(Model.Departments, "Id", "Name"))">
+        <option value="">-- Select Department --</option>
+    </select>
+    <span asp-validation-for="DepartmentId" class="text-danger"></span>
+</div>
+
+@if (Model.Courses != null && Model.Courses.Any())
+{
+    <div class="mb-3">
+        <label class="form-label">Courses</label>
+        <div class="border rounded p-3">
+            @foreach (var course in Model.Courses)
+            {
+                var isChecked = Model.SelectedCourseIds != null && Model.SelectedCourseIds.Contains(course.Id);
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="SelectedCourseIds" value="@course.Id" id="course_@course.Id" @(isChecked ? "checked" : "") />
+                    <label class="form-check-label" for="course_@course.Id">@course.Name</label>
+                </div>
+            }
+        </div>
+    </div>
+}
